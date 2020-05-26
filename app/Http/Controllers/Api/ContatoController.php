@@ -67,6 +67,13 @@ class ContatoController extends Controller
         return response()->json($retorno);
     }
 
+    /**
+     * Recurso para edição do contato
+     *
+     * @param Request $request
+     *
+     * @return Array $retorno
+     */
     public function update(Request $request)
     {
         try{
@@ -90,6 +97,13 @@ class ContatoController extends Controller
         return response()->json($retorno);
     }
 
+    /**
+     * Recurso para remoção do contato
+     *
+     * @param Contato $id
+     *
+     * @return Array $retorno
+     */
     public function remove(Contato $id)
     {
         try{
