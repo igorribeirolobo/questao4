@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Contatos</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.css"/>
+</head>
+<body>
+<div ng-controller="contatoController">
+    <div class="panel-control">
+        <div class="row">
+        <div class="font-normal h3 col-sm-6 m-t-xs" ng-if="isShow">
+            <i class="fa fa-users"></i> Contatos
+        </div>
+            <div class="font-normal h3 col-sm-6 m-t-xs" ng-if="isEdit">
+            <i class="fa fa-user"></i> Contato
+        </div>
+            <div class="font-normal h3 col-sm-6 m-t-xs" ng-if="isCreate">
+            <i class="fa fa-user"></i> Contato
+        </div>
+        <div class="col-sm-6 pull-right">
+            <button type="button" class="btn btn-primary btn-addon pull-right" ng-if="isShow" ng-click="create()">
+                <i class="fa fa-plus"></i> Novo
+            </button>
+        </div>
+        </div>
+    </div>
+    <div class="row wrapper-md">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+    <table class="table" ng-if="isShow">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Endereço</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="record in records">
+            <th scope="row">{{record.id}}</th>
+            <td>{{record.nome}}</td>
+            <td>{{record.telefone}}</td>
+            <td>{{record.email}}</td>
+            <td>{{record.endereco}}</td>
+            <td>
+                <md-icon ng-click="edit(record.id)" class="fa fa-edit"></md-icon>
+                <md-icon ng-click="remove(record.id)" class="fa fa-trash"></md-icon>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div ng-if="isCreate || isEdit">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group col-sm-6 required">
+                    <label class="control-label label-sm required" for="nome">Nome</label>
+                    <input type="text" class="form-control" name="nome" id="nome" ng-model="record.nome">
+                </div>
+                <div class="form-group col-sm-6 required">
+                    <label class="control-label label-sm required" for="telefone">Telefone</label>
+                    <input type="phone" class="form-control" name="telefone" id="telefone" ng-model="record.telefone">
+                </div>
+                <div class="form-group col-sm-6 required">
+                    <label class="control-label label-sm required" for="email">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" ng-model="record.email">
+                </div>
+                <div class="form-group col-sm-6 required">
+                    <label class="control-label label-sm required" for="endereco">Endereço</label>
+                    <input type="text" class="form-control" name="endereco" id="endereco" ng-model="record.endereco">
+                </div>
+                <div class="form-group col-sm-6">
+                    <button ng-click="cancelar()" class="btn btn-danger pull-right m-r-sm"><i class="fa fa-times"></i> Cancelar </button>
+                    <button ng-click="atualizar(record.id)" class="btn btn-success pull-right" ng-if="isEdit"><i class="fa fa-check"></i> Salvar </button>
+                    
+                    <button ng-click="inserir()" class="btn btn-success pull-right" ng-if="isCreate"><i class="fa fa-check"></i> Salvar </button>
+                </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</div>
+</body>
+<script type="application/javascript" src="js/angular/angular.min.js"></script>
+<script type="application/javascript" src="js/bootstrap/bootstrap.js"></script>
+<script src="https://use.fontawesome.com/447d4bb31f.js"></script>
+<script>
+    var app = angular.module('app', []);
+    app.controller('contatoController', [
+        '$scope'
+        , '$http'
+        , function (
+              $scope
+            , $http
+        ) {
+            $scope.records = [];
+
+            /**
+             * Define o modo de visualização da view
+             * @type {boolean}
+             */
+            $scope.isShow = true;
+            $scope.isEdit = false;
+            $scope.isCreate = false;
+
+            /**
+             * Inicia o controlador
+             */
+            $scope.onInit = function () {
+                $scope.reloadData();
+            }
+
+            /**
+             * Recarrega os dados
+             */
+            $scope.reloadData = function () {
+                $http.get('http://laravel.local/api/contatos/').then(function (response) {
+                    $scope.records = response.data.data;
+                });
+            }
+
+            /**
+             * Entra em modo de edição
+             *
+             * @param id
+             */
+            $scope.edit = function (id) {
+                $scope.isEdit = true;
+                $scope.isShow = false;
+                $http.get('http://laravel.local/api/contatos/'+id).then(function (response) {
+                    $scope.record = response.data;
+                });
+            }
+
+            $scope.create = function () {
+                $scope.record = {};
+                $scope.isCreate = true;
+                $scope.isShow = false;
+            }
+
+            /**
+             * Remove o dado
+             *
+             * @param id
+             */
+            $scope.remove = function (id) {
+                $http.delete('http://laravel.local/api/contatos/remove/'+id,$scope.record).then(function (response) {
+                    if(response.data.success){
+                        window.alert('Contato excluído com sucesso!');
+                    }
+                    else{
+                        window.alert('Houve um erro: '+response.data.error);
+                    }
+                });
+            }
+
+            $scope.cancelar = function () {
+                $scope.isShow = true;
+                $scope.isEdit = false;
+                $scope.isCreate = false;
+            }
+            
+            $scope.atualizar = function (id) {
+                $scope.record.id = id;
+                $http.put('http://laravel.local/api/contatos/edit',$scope.record).then(function (response) {
+                    if(response.data.success){
+                        window.alert('Contato atualizado com sucesso.');
+                        $scope.isShow = true;
+                        $scope.isEdit = false;
+                        $scope.reloadData();
+                    }
+                    else{
+                        window.alert('Houve um erro: '+response.data.error);
+                    }
+                });
+            }
+
+            $scope.inserir = function () {
+                $http.post('http://laravel.local/api/contatos/create',$scope.record).then(function (response) {
+                    if(response.data.success){
+                        window.alert('Contato inserido com sucesso.');
+                        $scope.isShow = true;
+                        $scope.isCreate = false;
+                        $scope.reloadData();
+                    }
+                    else{
+                        window.alert('Houve um erro: '+response.data.error);
+                    }
+                });
+            }
+
+            $scope.onInit();
+        }]);
+</script>
+</html>
