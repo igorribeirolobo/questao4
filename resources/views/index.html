@@ -2,7 +2,7 @@
 <html ng-app="app">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Contatos</title>
+    <title>Estágio</title>
     <link rel="stylesheet" href="css/bootstrap/bootstrap.css"/>
 </head>
 <body>
@@ -10,13 +10,13 @@
     <div class="panel-control">
         <div class="row">
         <div class="font-normal h3 col-sm-6 m-t-xs" ng-if="isShow">
-            <i class="fa fa-users"></i> Contatos
+            <i class="fa fa-users"></i> Lista de Cadastro
         </div>
             <div class="font-normal h3 col-sm-6 m-t-xs" ng-if="isEdit">
-            <i class="fa fa-user"></i> Contato
+            <i class="fa fa-user"></i> Cadastro
         </div>
             <div class="font-normal h3 col-sm-6 m-t-xs" ng-if="isCreate">
-            <i class="fa fa-user"></i> Contato
+            <i class="fa fa-user"></i> Cadastro
         </div>
         <div class="col-sm-6 pull-right">
             <button type="button" class="btn btn-primary btn-addon pull-right" ng-if="isShow" ng-click="create()">
