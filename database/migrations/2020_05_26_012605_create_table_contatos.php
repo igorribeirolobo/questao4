@@ -18,7 +18,7 @@ class CreateTableContatos extends Migration
             $table->string('nome');
             $table->string('telefone');
             $table->string('email');
-            $table->string('endereco');
+            $table->date('nascimento');
             $table->timestamps();
         });
     }

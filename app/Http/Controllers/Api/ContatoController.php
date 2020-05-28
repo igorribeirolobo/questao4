@@ -51,6 +51,10 @@ class ContatoController extends Controller
         try{
             $dados = $request->all();
 
+            $data = explode('T', $dados['nascimento']);
+
+            $dados['nascimento'] = $data[0];
+
             $contatos = $this->contato->create($dados);
 
             $retorno = array(

@@ -1,199 +1,428 @@
 <!DOCTYPE html>
-<html ng-app="app">
-<head>
-    <meta charset="UTF-8">
-    <title>Estágio</title>
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.css"/>
-</head>
-<body>
-<div ng-controller="contatoController">
-    <div class="panel-control">
+<html lang="pt-br" ng-app="app">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="widtd=device-widtd, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <title>IN8DEV</title>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav class="navbar navbar-expand-lg">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <img src="assets/img/icones/hamburguer.svg" alt="hamburguer" />
+          </button>
+          <a class="navbar-brand" href="#">
+            <img
+              src="assets/img/logo-in8-dev.png"
+              alt="loogtipo"
+              title="logotipo"
+            />
+          </a>
+          <div
+            class="collapse navbar-collapse justify-content-end"
+            id="navbarNav"
+          >
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a class="nav-link" href="#"
+                  >Lista <span class="sr-only">(current)</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Sobre Mim</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Cadastro</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <section class="intro">
+      <div class="container">
+        <div class="description">
+          <h1>ESTÁGIO</h1>
+          <h2>PROVA DE SELEÇÃO</h2>
+        </div>
+      </div>
+    </section>
+    <section class="blue-bg" ng-controller="contatoController">
+      <div class="container">
         <div class="row">
-        <div class="font-normal h3 col-sm-6 m-t-xs" ng-if="isShow">
-            <i class="fa fa-users"></i> Lista de Cadastro
+          <div class="col-md-8 offset-md-2">
+            <h2 class="text-center">CADASTRO</h2>
+            <form>
+              <div class="form-group row">
+                <label for="inputName">Nome</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="inputName"
+                  id="inputName"
+                  ng-model="record.nome"
+                  placeholder="Fulano Beltrano de Oliveira da Silva"
+                />
+              </div>
+              <div class="form-group row">
+                <label for="inputEmail">E-mail</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  name="inputEmail"
+                  id="inputEmail"
+                  ng-model="record.email"
+                  placeholder="fulanosbos@gmail.com"
+                />
+              </div>
+              <div class="form-group row">
+                <label for="inputDataNasc">Nascimento</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  name="inputDataNasc"
+                  id="inputDataNasc"
+                  ng-model="record.nascimento"
+                  placeholder="24/12/1994"
+                />
+              </div>
+              <div class="form-group row">
+                <label for="inputTelefone">Telefone</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="inputTelefone"
+                  id="inputTelefone"
+                  ng-model="record.telefone"
+                  placeholder="(31) 9 96366-1111"
+                />
+              </div>
+
+              <div class="form-group row">
+                <div class="col-md-12 text-center">
+                  <input type="submit" value="CADASTRAR" ng-click="inserir()" />
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-            <div class="font-normal h3 col-sm-6 m-t-xs" ng-if="isEdit">
-            <i class="fa fa-user"></i> Cadastro
-        </div>
-            <div class="font-normal h3 col-sm-6 m-t-xs" ng-if="isCreate">
-            <i class="fa fa-user"></i> Cadastro
-        </div>
-        <div class="col-sm-6 pull-right">
-            <button type="button" class="btn btn-primary btn-addon pull-right" ng-if="isShow" ng-click="create()">
-                <i class="fa fa-plus"></i> Novo
-            </button>
-        </div>
-        </div>
-    </div>
-    <div class="row wrapper-md">
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-    <table class="table" ng-if="isShow">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Telefone</th>
-            <th scope="col">Email</th>
-            <th scope="col">Endereço</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="record in records">
-            <th scope="row">{{record.id}}</th>
-            <td>{{record.nome}}</td>
-            <td>{{record.telefone}}</td>
-            <td>{{record.email}}</td>
-            <td>{{record.endereco}}</td>
-            <td>
-                <md-icon ng-click="edit(record.id)" class="fa fa-edit"></md-icon>
-                <md-icon ng-click="remove(record.id)" class="fa fa-trash"></md-icon>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div ng-if="isCreate || isEdit">
+      </div>
+    </section>
+
+    <section class="list">
+      <div class="container">
         <div class="row">
-            <div class="col-sm-12">
-                <div class="form-group col-sm-6 required">
-                    <label class="control-label label-sm required" for="nome">Nome</label>
-                    <input type="text" class="form-control" name="nome" id="nome" ng-model="record.nome">
+          <div class="col-md-12" ng-controller="contatoController">
+            <h2 class="text-center">LISTA DE CADASTRO</h2>
+
+            <table class="table table-responsive n-bordered d-none d-sm-table">
+              <tr>
+                <td class="small"></td>
+                <th>NOME</th>
+                <th>E-MAIL</th>
+                <th>NASCIMENTO</th>
+                <th>TELEFONE</th>
+              </tr>
+
+              <tr ng-repeat="record in records">
+                <td class="small" scope="row">{{record.id}}</td>
+                <td>{{record.nome}}</td>
+                <td>{{record.email}}</td>
+                <td>24/12/1994</td>
+                <td>{{record.telefone}}</td>
+              </tr>
+            </table>
+            <div id="exTab2" class="container d-block d-sm-none">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a
+                    class="nav-link active"
+                    id="um-tab"
+                    data-toggle="tab"
+                    href="#um"
+                    role="tab"
+                    aria-controls="um"
+                    aria-selected="true"
+                    >1</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="dois-tab"
+                    data-toggle="tab"
+                    href="#dois"
+                    role="tab"
+                    aria-controls="dois"
+                    aria-selected="false"
+                    >2</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="tres-tab"
+                    data-toggle="tab"
+                    href="#tres"
+                    role="tab"
+                    aria-controls="tres"
+                    aria-selected="false"
+                    >3</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="quatro-tab"
+                    data-toggle="tab"
+                    href="#quatro"
+                    role="tab"
+                    aria-controls="quatro"
+                    aria-selected="false"
+                    >4</a
+                  >
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div
+                  class="tab-pane fade show active"
+                  id="um"
+                  role="tabpanel"
+                  aria-labelledby="um-tab"
+                >
+                  <table>
+                    <tr>
+                      <th>NOME</th>
+                      <td>Fulano Beltrano de Oliveira da Silva</td>
+                    </tr>
+                    <tr>
+                      <th>E-MAIL</th>
+                      <td>fulanobos@gmail.com</td>
+                    </tr>
+                    <tr>
+                      <th>NASC.</th>
+                      <td>24/12/1994</td>
+                    </tr>
+                    <tr>
+                      <th>TEL.</th>
+                      <td>(11) 1111-1111</td>
+                    </tr>
+                  </table>
                 </div>
-                <div class="form-group col-sm-6 required">
-                    <label class="control-label label-sm required" for="telefone">Telefone</label>
-                    <input type="phone" class="form-control" name="telefone" id="telefone" ng-model="record.telefone">
+                <div
+                  class="tab-pane fade"
+                  id="dois"
+                  role="tabpanel"
+                  aria-labelledby="dois-tab"
+                >
+                  <table>
+                    <tr>
+                      <th>NOME</th>
+                      <td>Fulano Beltrano de Oliveira da Silva</td>
+                    </tr>
+                    <tr>
+                      <th>E-MAIL</th>
+                      <td>fulanobos@gmail.com</td>
+                    </tr>
+                    <tr>
+                      <th>NASC.</th>
+                      <td>24/12/1994</td>
+                    </tr>
+                    <tr>
+                      <th>TEL.</th>
+                      <td>(11) 1111-1111</td>
+                    </tr>
+                  </table>
                 </div>
-                <div class="form-group col-sm-6 required">
-                    <label class="control-label label-sm required" for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" ng-model="record.email">
+                <div
+                  class="tab-pane fade"
+                  id="tres"
+                  role="tabpanel"
+                  aria-labelledby="tres-tab"
+                >
+                  <table>
+                    <tr>
+                      <th>NOME</th>
+                      <td>Fulano Beltrano de Oliveira da Silva</td>
+                    </tr>
+                    <tr>
+                      <th>E-MAIL</th>
+                      <td>fulanobos@gmail.com</td>
+                    </tr>
+                    <tr>
+                      <th>NASC.</th>
+                      <td>24/12/1994</td>
+                    </tr>
+                    <tr>
+                      <th>TEL.</th>
+                      <td>(11) 1111-1111</td>
+                    </tr>
+                  </table>
                 </div>
-                <div class="form-group col-sm-6 required">
-                    <label class="control-label label-sm required" for="endereco">Endereço</label>
-                    <input type="text" class="form-control" name="endereco" id="endereco" ng-model="record.endereco">
+                <div
+                  class="tab-pane fade"
+                  id="quatro"
+                  role="tabpanel"
+                  aria-labelledby="quatro-tab"
+                >
+                  <table>
+                    <tr>
+                      <th>NOME</th>
+                      <td>Fulano Beltrano de Oliveira da Silva</td>
+                    </tr>
+                    <tr>
+                      <th>E-MAIL</th>
+                      <td>fulanobos@gmail.com</td>
+                    </tr>
+                    <tr>
+                      <th>NASC.</th>
+                      <td>24/12/1994</td>
+                    </tr>
+                    <tr>
+                      <th>TEL.</th>
+                      <td>(11) 1111-1111</td>
+                    </tr>
+                  </table>
                 </div>
-                <div class="form-group col-sm-6">
-                    <button ng-click="cancelar()" class="btn btn-danger pull-right m-r-sm"><i class="fa fa-times"></i> Cancelar </button>
-                    <button ng-click="atualizar(record.id)" class="btn btn-success pull-right" ng-if="isEdit"><i class="fa fa-check"></i> Salvar </button>
-                    
-                    <button ng-click="inserir()" class="btn btn-success pull-right" ng-if="isCreate"><i class="fa fa-check"></i> Salvar </button>
-                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <p>Fulano Beltrano de Oliveira da Silva</p>
+            <p>fulanobos@gmail.com</p>
+            <p>(11) 1111-1111</p>
+            <p>Faculdade de Belo Horizonte</p>
+          </div>
         </div>
-    </div>
-    </div>
-    </div>
-</div>
-</body>
-<script type="application/javascript" src="js/angular/angular.min.js"></script>
-<script type="application/javascript" src="js/bootstrap/bootstrap.js"></script>
-<script src="https://use.fontawesome.com/447d4bb31f.js"></script>
-<script>
-    var app = angular.module('app', []);
-    app.controller('contatoController', [
-        '$scope'
-        , '$http'
-        , function (
-              $scope
-            , $http
-        ) {
-            $scope.records = [];
+      </div>
+    </footer>
+    <script src="assets/js/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script>
+        var app = angular.module('app', []);
+        app.controller('contatoController', [
+            '$scope'
+            , '$http'
+            , function (
+                $scope
+                , $http
+            ) {
+                $scope.records = [];
 
-            /**
-             * Define o modo de visualização da view
-             * @type {boolean}
-             */
-            $scope.isShow = true;
-            $scope.isEdit = false;
-            $scope.isCreate = false;
-
-            /**
-             * Inicia o controlador
-             */
-            $scope.onInit = function () {
-                $scope.reloadData();
-            }
-
-            /**
-             * Recarrega os dados
-             */
-            $scope.reloadData = function () {
-                $http.get('http://laravel.local/api/contatos/').then(function (response) {
-                    $scope.records = response.data.data;
-                });
-            }
-
-            /**
-             * Entra em modo de edição
-             *
-             * @param id
-             */
-            $scope.edit = function (id) {
-                $scope.isEdit = true;
-                $scope.isShow = false;
-                $http.get('http://laravel.local/api/contatos/'+id).then(function (response) {
-                    $scope.record = response.data;
-                });
-            }
-
-            $scope.create = function () {
-                $scope.record = {};
-                $scope.isCreate = true;
-                $scope.isShow = false;
-            }
-
-            /**
-             * Remove o dado
-             *
-             * @param id
-             */
-            $scope.remove = function (id) {
-                $http.delete('http://laravel.local/api/contatos/remove/'+id,$scope.record).then(function (response) {
-                    if(response.data.success){
-                        window.alert('Contato excluído com sucesso!');
-                    }
-                    else{
-                        window.alert('Houve um erro: '+response.data.error);
-                    }
-                });
-            }
-
-            $scope.cancelar = function () {
+                /**
+                 * Define o modo de visualização da view
+                 * @type {boolean}
+                 */
                 $scope.isShow = true;
                 $scope.isEdit = false;
                 $scope.isCreate = false;
-            }
-            
-            $scope.atualizar = function (id) {
-                $scope.record.id = id;
-                $http.put('http://laravel.local/api/contatos/edit',$scope.record).then(function (response) {
-                    if(response.data.success){
-                        window.alert('Contato atualizado com sucesso.');
-                        $scope.isShow = true;
-                        $scope.isEdit = false;
-                        $scope.reloadData();
-                    }
-                    else{
-                        window.alert('Houve um erro: '+response.data.error);
-                    }
-                });
-            }
 
-            $scope.inserir = function () {
-                $http.post('http://laravel.local/api/contatos/create',$scope.record).then(function (response) {
-                    if(response.data.success){
-                        window.alert('Contato inserido com sucesso.');
-                        $scope.isShow = true;
-                        $scope.isCreate = false;
-                        $scope.reloadData();
-                    }
-                    else{
-                        window.alert('Houve um erro: '+response.data.error);
-                    }
-                });
-            }
+                /**
+                 * Inicia o controlador
+                 */
+                $scope.onInit = function () {
+                    $scope.reloadData();
+                }
 
-            $scope.onInit();
-        }]);
-</script>
+                /**
+                 * Recarrega os dados
+                 */
+                $scope.reloadData = function () {
+                    $http.get('http://laravel.local/api/contatos/').then(function (response) {
+                        $scope.records = response.data.data;
+                    });
+                }
+
+                /**
+                 * Entra em modo de edição
+                 *
+                 * @param id
+                 */
+                $scope.edit = function (id) {
+                    $scope.isEdit = true;
+                    $scope.isShow = false;
+                    $http.get('http://laravel.local/api/contatos/'+id).then(function (response) {
+                        $scope.record = response.data;
+                    });
+                }
+
+                $scope.create = function () {
+                    $scope.record = {};
+                    $scope.isCreate = true;
+                    $scope.isShow = false;
+                }
+
+                /**
+                 * Remove o dado
+                 *
+                 * @param id
+                 */
+                $scope.remove = function (id) {
+                    $http.delete('http://laravel.local/api/contatos/remove/'+id,$scope.record).then(function (response) {
+                        if(response.data.success){
+                            window.alert('Contato excluído com sucesso!');
+                        }
+                        else{
+                            window.alert('Houve um erro: '+response.data.error);
+                        }
+                    });
+                }
+
+                $scope.cancelar = function () {
+                    $scope.isShow = true;
+                    $scope.isEdit = false;
+                    $scope.isCreate = false;
+                }
+
+                $scope.atualizar = function (id) {
+                    $scope.record.id = id;
+                    $http.put('http://laravel.local/api/contatos/edit',$scope.record).then(function (response) {
+                        if(response.data.success){
+                            window.alert('Contato atualizado com sucesso.');
+                            $scope.isShow = true;
+                            $scope.isEdit = false;
+                            location.reload();
+                        }
+                        else{
+                            window.alert('Houve um erro: '+response.data.error);
+                        }
+                    });
+                }
+
+                $scope.inserir = function () {
+                    $http.post('http://laravel.local/api/contatos/create',$scope.record).then(function (response) {
+                        if(response.data.success){
+                            window.alert('Contato inserido com sucesso.');
+                            $scope.isShow = true;
+                            $scope.isCreate = false;
+                            location.reload();
+                        }
+                        else{
+                            window.alert('Houve um erro: '+response.data.error);
+                        }
+                    });
+                }
+
+                $scope.onInit();
+            }]);
+    </script>
+  </body>
 </html>
